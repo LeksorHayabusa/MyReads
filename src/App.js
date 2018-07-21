@@ -2,17 +2,11 @@ import React, { Component } from 'react'
 import { Route} from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import ListBooks from './ListBooks'
-import BookSearch  from './BookSearch'
+import MainPage from './MainPage'
+import SearchPage  from './SearchPage'
 
 class BooksApp extends Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
     showSearchPage: false,
     books: [],
     markList: {
@@ -22,18 +16,28 @@ class BooksApp extends Component {
     }
   }
 
-  changeState = this.changeState.bind(this);
+  changePageState = this.changePageState.bind(this);
   changeShelfState = this.changeShelfState.bind(this);
+  changeBookState = this.changeBookState.bind(this);
 
-	changeState() {
+	changePageState() {
     const showSearchPage = this.state.showSearchPage;
 		this.setState({ showSearchPage: true })
 	}
+
+  changeBookState(books) {
+    if(typeof(book) == 'object') throw new Error;   
+    this.setState(books)
+  }
 
   changeShelfState() {
     const books = this.state.books;
     BooksAPI.getAll().then(books => this.setState({books}))
   }
+		
+	changeShelf = (book,shelf) => {
+		BooksAPI.update(book, shelf)
+	}
 
   downloadImg(url) {
     return fetch(url, {
@@ -47,33 +51,31 @@ class BooksApp extends Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then(books => {
-      console.log(books)
-      return this.setState({books})})
+    BooksAPI.getAll().then(books => this.setState({books}))
   }
 
   render() {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <Route path='/search' render={( history ) => (
-            <BookSearch
-              markList={this.state.markList}
+          //<Route path='/search' render={( history ) => (
+            <SearchPage
+              books={ this.state.books }
+              markList={ this.state.markList }
+              changeBookState={ this.changeBookState}
               changeShelfState={ this.changeShelfState }
-              onSearch={() => {
-                history.push('/')
-              }}
             />
-          )}/>
+          //)}/>
         ) : (
-          <Route exact path='/' render={() => (
-            <ListBooks 
-              books={this.state.books}
-              markList={this.state.markList} 
-              showSearchPage={this.changeState}
+          //<Route exact path='/' render={() => (
+            <MainPage 
+              books={ this.state.books }
+              markList={ this.state.markList }
+              changeShelf={ this.changeShelf }
+              showSearchPage={ this.changePageState }
               changeShelfState={ this.changeShelfState }
             />
-          )}/> 
+          //)}/> 
         )}
       </div>
     )
