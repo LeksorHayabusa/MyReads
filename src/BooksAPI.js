@@ -6,7 +6,7 @@ const api = "https://reactnd-books-api.udacity.com"
 let token = localStorage.token
   console.log('toker - ' + token)//
 if (!token)
-  token = localStorage.token = Math.random().toString(36).substr(-8)
+  token = localStorage.token = Math.random().toString(36).substr(-9)
 
 const headers = {
   'Accept': 'application/json',
@@ -22,7 +22,7 @@ export const getAll = () =>
   fetch(`${api}/books`, { headers })
     .then(res => res.json())
     .then(data => {
-      console.log(data.books)
+      //console.log(data.books)
       return data.books})
 
 export const update = (book, shelf) =>

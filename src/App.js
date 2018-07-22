@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Route} from 'react-router-dom'
+import React, { Component } from 'react' 
+import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import MainPage from './MainPage'
@@ -7,39 +7,35 @@ import SearchPage  from './SearchPage'
 
 class BooksApp extends Component {
   state = {
-    showSearchPage: false,
+    showSearchPage: false ,
     books: [],
     markList: {
       currentlyReading:"Currently reading",
       wantToRead:"Want to read",
-      read:"Read"//
+      read:"Read",
+      none:"None"
     }
   }
 
   changePageState = this.changePageState.bind(this);
-  changeShelfState = this.changeShelfState.bind(this);
-  changeBookState = this.changeBookState.bind(this);
 
-	changePageState() {
+	changePageState(state) {
     const showSearchPage = this.state.showSearchPage;
-		this.setState({ showSearchPage: true })
+    if(state) return this.setState({ showSearchPage: state })
+    this.setState({ showSearchPage: false })
 	}
 
   changeBookState(books) {
     if(typeof(book) == 'object') throw new Error;   
     this.setState(books)
   }
-
-  changeShelfState() {
-    const books = this.state.books;
-    BooksAPI.getAll().then(books => this.setState({books}))
-  }
 		
 	changeShelf = (book,shelf) => {
-		BooksAPI.update(book, shelf)
+    BooksAPI.update(book, shelf);
+    this.componentDidMount();
 	}
 
-  downloadImg(url) {
+/*   downloadImg(url) {
     return fetch(url, {
       mode: 'cors',
       headers: {
@@ -48,7 +44,7 @@ class BooksApp extends Component {
         'Access-Control-Allow-Headers': '*',
         "Access-Control-Expose-Headers": "Content-Length, X-JSON"
       }}).then(img => img)
-  }
+  } */
 
   componentDidMount() {
     BooksAPI.getAll().then(books => this.setState({books}))
@@ -57,26 +53,22 @@ class BooksApp extends Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          //<Route path='/search' render={( history ) => (
+          <Route path='/search' render={(history) => (
             <SearchPage
               books={ this.state.books }
               markList={ this.state.markList }
-              changeBookState={ this.changeBookState}
-              changeShelfState={ this.changeShelfState }
+              changeShelf={ this.changeShelf }
+              changePageState={ this.changePageState }
             />
-          //)}/>
-        ) : (
-          //<Route exact path='/' render={() => (
+          )}/>
+          <Route exact path='/' render={() => (
             <MainPage 
               books={ this.state.books }
               markList={ this.state.markList }
               changeShelf={ this.changeShelf }
-              showSearchPage={ this.changePageState }
-              changeShelfState={ this.changeShelfState }
+              changePageState={ this.changePageState }
             />
-          //)}/> 
-        )}
+          )}/>
       </div>
     )
   }
