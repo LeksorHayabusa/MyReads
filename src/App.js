@@ -31,20 +31,14 @@ class BooksApp extends Component {
     BooksAPI.getAll().then(books => this.setState({books}))
   }
 
-  updateHistory(){}
-
   render() {
     return (
       <div className="app">
-          <Route path='/search' render={(history) => (
+          <Route path='/search' render={() => (
             <SearchPage
               books={ this.state.books }
               markList={ this.state.markList }
               changeShelf={ this.changeShelf }
-              updateHistory={ () => {
-                this.updateHistory();
-                //history.push('/')
-              }}
             />
           )}/>
           <Route exact path='/' render={() => (
