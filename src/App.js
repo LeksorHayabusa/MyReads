@@ -17,14 +17,6 @@ class BooksApp extends Component {
     }
   }
 
-  changePageState = this.changePageState.bind(this);
-
-	changePageState(state) {
-    const showSearchPage = this.state.showSearchPage;
-    if(state) return this.setState({ showSearchPage: state })
-    this.setState({ showSearchPage: false })
-	}
-
   changeBookState(books) {
     if(typeof(book) == 'object') throw new Error;   
     this.setState(books)
@@ -35,20 +27,11 @@ class BooksApp extends Component {
     this.componentDidMount();
 	}
 
-/*   downloadImg(url) {
-    return fetch(url, {
-      mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': '*',
-        "Access-Control-Expose-Headers": "Content-Length, X-JSON"
-      }}).then(img => img)
-  } */
-
   componentDidMount() {
     BooksAPI.getAll().then(books => this.setState({books}))
   }
+
+  updateHistory(){}
 
   render() {
     return (
@@ -58,7 +41,10 @@ class BooksApp extends Component {
               books={ this.state.books }
               markList={ this.state.markList }
               changeShelf={ this.changeShelf }
-              changePageState={ this.changePageState }
+              updateHistory={ () => {
+                this.updateHistory();
+                //history.push('/')
+              }}
             />
           )}/>
           <Route exact path='/' render={() => (
@@ -66,7 +52,6 @@ class BooksApp extends Component {
               books={ this.state.books }
               markList={ this.state.markList }
               changeShelf={ this.changeShelf }
-              changePageState={ this.changePageState }
             />
           )}/>
       </div>

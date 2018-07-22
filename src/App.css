@@ -5,7 +5,7 @@ body {
   line-height: 1.5;
 }
 body, .app {
-  background: white;
+  background: #333;
 }
 
 /* main page */
@@ -18,7 +18,7 @@ body, .app {
 .list-books-title h1 {
   font-weight: 400;
   margin: 0;
-  color: white;
+  color: #fff;
 }
 
 .list-books-content {
@@ -28,6 +28,7 @@ body, .app {
 
 .bookshelf {
   padding: 0 10px 20px;
+  color: #fff
 }
 
 @media (min-width: 600px) {
@@ -91,7 +92,7 @@ body, .app {
   left: 15px;
   width: 50px;
   height: 53px;
-  background: white;
+  background: #cacaca;
   background-image: url('./icons/arrow-back.svg');
   background-position: center;
   background-repeat: no-repeat;
