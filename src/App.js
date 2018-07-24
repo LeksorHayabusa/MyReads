@@ -34,14 +34,14 @@ class BooksApp extends Component {
   render() {
     return (
       <div className="app">
-          <Route path='/search' render={() => (
+          <Route path='/myreads/search' render={() => (
             <SearchPage
               books={ this.state.books }
               markList={ this.state.markList }
               changeShelf={ this.changeShelf }
             />
           )}/>
-          <Route exact path='/' render={() => (
+          <Route exact path='/myreads/' render={() => (
             <MainPage 
               books={ this.state.books }
               markList={ this.state.markList }
