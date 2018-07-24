@@ -38,7 +38,7 @@ class SearchPage extends Component {
 		return (
 			<div className="search-books">
 				<div className="search-books-bar">
-					<Link to="/" className="close-search">Close</Link>
+					<Link to="/myreads/" className="close-search">Close</Link>
 					<div className="search-books-input-wrapper">
 						{// https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
 						}
